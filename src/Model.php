@@ -35,4 +35,86 @@ abstract class Model
 
         return $result ?? false;
     }
+
+    public function insert(): void
+    {
+        $db = DB::getInstance();
+
+        $columns = [];
+        $data = [];
+
+        foreach (get_object_vars($this) as $prop => $value ) {
+            if ('id' == $prop ) {
+                continue;
+            }
+            $columns[] = $prop;
+            $data [':' . $prop] = $value;
+        }
+
+        $sql = 'INSERT INTO ' . static::TABLE .
+            ' (' . implode(',', $columns) . ') 
+            VALUES (' . implode(',', array_keys($data)) .')
+            ';
+
+        $db->execute($sql, $data);
+
+        $this->id = $db->getInsertId();
+    }
+
+    public function update(): bool
+    {
+        $db = DB::getInstance();
+
+        $data = [];
+        $id = null;
+
+        foreach (get_object_vars($this) as $prop => $value) {
+            if ('id' == $prop) {
+                $id = $value;
+                continue;
+            }
+            $data[':' . $prop] = $value;
+        }
+
+        if ($id === null) {
+            throw new \RuntimeException('ID must be set for update');
+        }
+
+        $setPart = implode(', ', array_map(function ($key) {
+            $key = ltrim($key, ':');
+            return "$key = :$key";
+        }, array_keys($data)));
+
+        $sql = 'UPDATE ' . static::TABLE .
+            ' SET ' . $setPart .
+            ' WHERE id = :id';
+
+        $data[':id'] = $id;
+
+        return $db->execute($sql, $data);
+    }
+
+    public function delete(): void
+    {
+        if (!isset($this->id)) {
+            throw new \RuntimeException('ID must be set for delete');
+        }
+
+        $db = DB::getInstance();
+
+        $sql = 'DELETE FROM ' . static::TABLE . ' WHERE id =:id';
+        $data = [':id' => $this->id];
+
+        $db->execute($sql, $data);
+    }
+
+    public function save(): void
+    {
+        if (isset($this->id)) {
+            $this->update();
+        } else {
+            $this->insert();
+        }
+    }
+
 }

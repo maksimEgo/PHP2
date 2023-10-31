@@ -3,18 +3,12 @@
 namespace src\model;
 
 use PDO;
+use src\Config;
 
-class DB
+class DB extends Config
 {
     protected static ?PDO $db = null;
     protected static ?DB $instance = null;
-
-    private static string $configPath = __DIR__ . '/../../config/database.php';
-
-    private static array $config;
-    private static string $dbName;
-    private static string $user;
-    private static string $password;
 
     private const HOST = 'pgsql:host=postgres;';
     private const PORT = 'port=5432;';
@@ -25,48 +19,23 @@ class DB
             ->configureConnectionAttributes();
     }
 
-    public function __destruct()
-    {
-        self::$db = null;
-    }
-
     public static function getInstance(): DB
     {
         if (self::$instance === null) {
-            self::loadConfig();
-            self::setConnectionParameters();
+            static::loadConfig();
+            static::setConnectionParameters();
             self::$instance = new self();
         }
 
         return self::$instance;
     }
 
-    private static function loadConfig(): void
-    {
-        if (!file_exists(self::$configPath)) {
-            throw new \RuntimeException('Database configuration file does not exist.');
-        }
-
-        self::$config = include self::$configPath;
-    }
-
-    private static function setConnectionParameters(): void
-    {
-        if (!isset(self::$config['dbname']) || !isset(self::$config['user']) || !isset(self::$config['password'])) {
-            throw new \RuntimeException('Database configuration is incomplete.');
-        }
-
-        self::$dbName = self::$config['dbname'];
-        self::$user = self::$config['user'];
-        self::$password = self::$config['password'];
-    }
-
     private function initializeDatabaseConnection(): self
     {
         if (!isset(self::$db)) {
-            self::$db = new PDO(DB::HOST . DB::PORT . 'dbname=' . self::$dbName,
-                self::$user,
-                self::$password);
+            self::$db = new PDO(DB::HOST . DB::PORT . 'dbname=' . static::$dbName,
+                static::$user,
+                static::$password);
         }
 
         return $this;
@@ -100,5 +69,10 @@ class DB
         $sth = self::$db->prepare($sql);
 
         return $sth->execute($data);
+    }
+
+    public static function getInsertId(): false|string
+    {
+        return static::$db->lastInsertId();
     }
 }
