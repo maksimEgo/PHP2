@@ -2,16 +2,17 @@
 
 require_once __DIR__ . '/../../autoload.php';
 
+$view = new \src\View();
 $article = new \src\model\Article();
 
 if ( 'GET' === $_SERVER['REQUEST_METHOD'] ) {
     if ( isset($_GET['id']) && filter_var($_GET['id'], FILTER_VALIDATE_INT) ) {
         $id = $_GET['id'];
-        $article = $article::findById($id);
-        if ( !$article ) {
+        $view->article = $article::findById($id);
+        if ( !$view->article ) {
             die('Статья не найдена');
         }
-        include __DIR__ . '/../../../template/admin/action/edit.php';
+        echo $view->render(__DIR__ . '/../../../template/admin/action/edit.php');
     } else {
         die('Неверный ID статьи');
     }

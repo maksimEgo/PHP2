@@ -2,6 +2,6 @@
 
 require_once __DIR__ . '/../autoload.php';
 
-$articles = \src\model\Article::findAll();
-
-include __DIR__ . '/../../template/admin/index.php';
+$view = new \src\View();
+$view->articles = \src\model\Article::findAll();
+echo $view->render(__DIR__ . '/../../template/admin/index.php');

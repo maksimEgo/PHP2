@@ -11,6 +11,14 @@ try {
     content TEXT
         );');
 
+    $db->execute('CREATE TABLE IF NOT EXISTS authors(
+    id serial PRIMARY KEY NOT NULL,
+    name varchar(128)
+        );');
+
+    $db->execute('ALTER TABLE news 
+    ADD author_id varchar(100);');
+
     /*$article = new \src\model\Article();
     $article->title = 'Репозиторий';
     $article->content = 'Теперь создадим простейший репозиторий. Тоже с одним методом, который будет возвращать нам пользователя по его email:';

@@ -4,6 +4,7 @@ ob_start();
 
 require_once __DIR__ . '/../../autoload.php';
 
+$view = new \src\View();
 $article = new \src\model\Article();
 
 if ('POST' === $_SERVER['REQUEST_METHOD']) {
@@ -18,4 +19,4 @@ if ('POST' === $_SERVER['REQUEST_METHOD']) {
     }
 }
 
-include __DIR__ . '/../../../template/admin/action/add.php';
+echo $view->render(__DIR__ . '/../../../template/admin/action/add.php');

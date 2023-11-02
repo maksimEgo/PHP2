@@ -15,6 +15,7 @@
     <div class="news-item">
         <h2 class="news-title"><?php echo htmlspecialchars($article->title) ?></h2>
         <p class="news-content"><?php echo nl2br(htmlspecialchars($article->content)); ?></p>
+        <p>Автор: <?php echo htmlspecialchars($article->author->name); ?></p>
     </div>
     <div class="back-to-home">
         <a href="/" class="back-button">Вернуться на главную</a>

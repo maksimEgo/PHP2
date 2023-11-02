@@ -5,10 +5,26 @@ namespace src;
 use src\model\DB;
 use PDO;
 
+/**
+ * Class Model
+ *
+ * This abstract class represents the base model for interacting with the database.
+ *
+ * @package src
+ */
 abstract class Model
 {
+    /**
+     * @var int $id Unique identifier for the model.
+     */
     public int $id;
 
+    /**
+     * Finds a model by its ID.
+     *
+     * @param int $id The ID of the model to find.
+     * @return array|object|false The found model as an object, array if multiple results, or false if not found.
+     */
     public static function findById(int $id) : array|object|false
     {
         $db = DB::getInstance();
@@ -20,22 +36,33 @@ abstract class Model
             'id' => $id,
         ];
 
-        $result = $db->query($sql, $data, PDO::FETCH_CLASS);
+        $result = $db->query($sql, $data, PDO::FETCH_CLASS, className: static::class);
 
         return $result[0] ?? false;
     }
 
+    /**
+     * Finds all models in the database.
+     *
+     * @return array|false The found models as an array of objects, or false if none found.
+     */
     public static function findAll(): array|false
     {
         $db = DB::getInstance();
 
         $sql = 'SELECT * FROM ' . static::TABLE;
 
-        $result = $db->query($sql, fetchStyle: PDO::FETCH_CLASS);
+        $result = $db->query($sql, fetchStyle: PDO::FETCH_CLASS, className: static::class);
 
         return $result ?? false;
     }
 
+
+    /**
+     * Inserts the current model instance into the database.
+     *
+     * @return void
+     */
     public function insert(): void
     {
         $db = DB::getInstance();
@@ -61,6 +88,11 @@ abstract class Model
         $this->id = $db->getInsertId();
     }
 
+    /**
+     * Updates the current model instance in the database.
+     *
+     * @return bool True on success, false on failure.
+     */
     public function update(): bool
     {
         $db = DB::getInstance();
@@ -94,6 +126,11 @@ abstract class Model
         return $db->execute($sql, $data);
     }
 
+    /**
+     * Deletes the current model instance from the database.
+     *
+     * @return void
+     */
     public function delete(): void
     {
         if (!isset($this->id)) {
@@ -108,6 +145,11 @@ abstract class Model
         $db->execute($sql, $data);
     }
 
+    /**
+     * Saves the current model instance to the database.
+     *
+     * @return void
+     */
     public function save(): void
     {
         if (isset($this->id)) {
@@ -116,5 +158,4 @@ abstract class Model
             $this->insert();
         }
     }
-
 }

@@ -19,6 +19,7 @@
                     <h2 class="news-title"><?php echo htmlspecialchars($item->title); ?></h2>
                 </a>
                 <p class="news-content"><?php echo nl2br(htmlspecialchars($item->content)); ?></p>
+                <p>Автор: <?php echo htmlspecialchars($item->author->name); ?></p>
             </li>
         <?php endforeach; ?>
     </ul>
