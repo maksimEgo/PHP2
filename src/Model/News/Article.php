@@ -1,19 +1,19 @@
 <?php
 
-namespace src\model;
+namespace src\Model\News;
 
-use src\Model;
+use src\AbstractModel;
 use src\ObjectProperties;
 
 /**
  * Class Article
  *
- * This class represents an article and extends the Model class.
+ * This class represents an article and extends the AbstractModel class.
  * It includes methods for handling the author and their properties.
  *
- * @package src\model
+ * @package src\AbstractModel
  */
-class Article extends Model
+class Article extends AbstractModel
 {
     /**
      * Include trait for dynamic property handling.

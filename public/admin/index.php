@@ -2,6 +2,13 @@
 
 require_once __DIR__ . '/../autoload.php';
 
-$view = new \src\View();
-$view->articles = \src\model\Article::findAll();
-echo $view->render(__DIR__ . '/../../template/admin/index.php');
+$page = $_GET['page'] ?? 'Articles';
+
+$routeName = 'src\\Controller\\Admin\\' . ucfirst($page) . 'Controller';
+
+if (class_exists($routeName)) {
+    $controller = new $routeName;
+    $controller->dispatch('defaultAction');
+} else {
+    echo '404 ошибка';
+}

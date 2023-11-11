@@ -15,7 +15,7 @@
     <ul class="news-list">
         <?php foreach ($articles as $item): ?>
             <li class="news-item">
-                <a href="/article.php?id=<?php echo $item->id; ?>" class="news-link">
+                <a href="/?page=article&id=<?php echo $item->id; ?>" class="news-link">
                     <h2 class="news-title"><?php echo htmlspecialchars($item->title); ?></h2>
                 </a>
                 <p class="news-content"><?php echo nl2br(htmlspecialchars($item->content)); ?></p>

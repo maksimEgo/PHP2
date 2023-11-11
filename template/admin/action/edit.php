@@ -31,6 +31,13 @@
                 <td><textarea name="content"><?php echo htmlspecialchars($article->content); ?></textarea></td>
             </tr>
             <tr>
+                <td>Автор</td>
+                <td>
+                    <input type="hidden" name="author_id" value="<?php echo htmlspecialchars($article->author_id); ?>">
+                    <?php echo htmlspecialchars($article->author->name); ?>
+                </td>
+            </tr>
+            <tr>
                 <td colspan="2">
                     <input type="submit" value="Сохранить изменения" class="save-button">
                 </td>

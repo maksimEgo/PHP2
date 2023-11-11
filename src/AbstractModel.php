@@ -2,32 +2,32 @@
 
 namespace src;
 
-use src\model\DB;
+use src\Model\Db;
 use PDO;
 
 /**
- * Class Model
+ * Class AbstractModel
  *
- * This abstract class represents the base model for interacting with the database.
+ * This abstract class represents the base AbstractModel for interacting with the database.
  *
  * @package src
  */
-abstract class Model
+abstract class AbstractModel
 {
     /**
-     * @var int $id Unique identifier for the model.
+     * @var int $id Unique identifier for the AbstractModel.
      */
     public int $id;
 
     /**
-     * Finds a model by its ID.
+     * Finds a AbstractModel by its ID.
      *
-     * @param int $id The ID of the model to find.
-     * @return array|object|false The found model as an object, array if multiple results, or false if not found.
+     * @param int $id The ID of the AbstractModel to find.
+     * @return array|object|false The found AbstractModel as an object, array if multiple results, or false if not found.
      */
     public static function findById(int $id) : array|object|false
     {
-        $db = DB::getInstance();
+        $db = Db::getInstance();
 
         $sql = 'SELECT * FROM ' . static::TABLE
             . ' WHERE id =:id';
@@ -48,7 +48,7 @@ abstract class Model
      */
     public static function findAll(): array|false
     {
-        $db = DB::getInstance();
+        $db = Db::getInstance();
 
         $sql = 'SELECT * FROM ' . static::TABLE;
 
@@ -59,13 +59,13 @@ abstract class Model
 
 
     /**
-     * Inserts the current model instance into the database.
+     * Inserts the current AbstractModel instance into the database.
      *
      * @return void
      */
     public function insert(): void
     {
-        $db = DB::getInstance();
+        $db = Db::getInstance();
 
         $columns = [];
         $data = [];
@@ -89,13 +89,13 @@ abstract class Model
     }
 
     /**
-     * Updates the current model instance in the database.
+     * Updates the current AbstractModel instance in the database.
      *
      * @return bool True on success, false on failure.
      */
     public function update(): bool
     {
-        $db = DB::getInstance();
+        $db = Db::getInstance();
 
         $data = [];
         $id = null;
@@ -127,7 +127,7 @@ abstract class Model
     }
 
     /**
-     * Deletes the current model instance from the database.
+     * Deletes the current AbstractModel instance from the database.
      *
      * @return void
      */
@@ -137,7 +137,7 @@ abstract class Model
             throw new \RuntimeException('ID must be set for delete');
         }
 
-        $db = DB::getInstance();
+        $db = Db::getInstance();
 
         $sql = 'DELETE FROM ' . static::TABLE . ' WHERE id =:id';
         $data = [':id' => $this->id];
@@ -146,7 +146,7 @@ abstract class Model
     }
 
     /**
-     * Saves the current model instance to the database.
+     * Saves the current AbstractModel instance to the database.
      *
      * @return void
      */

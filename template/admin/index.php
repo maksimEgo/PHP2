@@ -28,8 +28,8 @@
                 <td><?php echo htmlspecialchars($article->title); ?></td>
                 <td><?php echo htmlspecialchars($article->content); ?></td>
                 <td>
-                    <a href="/admin/action/edit.php?id=<?php echo $article->id; ?>" class="edit-button">Изменить</a>
-                    <a href="/admin/action/delete.php?id=<?php echo $article->id; ?>" class="delete-button">Удалить</a>
+                    <a href="/admin/?action=edit&id=<?php echo $article->id; ?>" class="edit-button">Изменить</a>
+                    <a href="/admin/?action=delete&id=<?php echo $article->id; ?>" class="delete-button">Удалить</a>
                 </td>
             </tr>
         <?php endforeach; ?>
@@ -37,7 +37,7 @@
     </table>
     <div class="buttons-wrapper">
         <div class="add-article">
-            <a href="/admin/action/add.php" class="article-button">Добавить новость</a>
+            <a href="/admin/?action=add" class="article-button">Добавить новость</a>
         </div>
         <div class="back-to-home">
             <a href="/" class="back-button">Вернуться на главную</a>

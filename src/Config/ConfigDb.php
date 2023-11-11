@@ -1,20 +1,20 @@
 <?php
 
-namespace src;
+namespace src\Config;
 
 /**
- * Class Config
+ * Class ConfigDb
  *
  * This class is responsible for loading and providing configuration settings for the database connection.
  *
  * @package src
  */
-class Config
+class ConfigDb
 {
     /**
      * @var string The path to the database configuration file.
      */
-    protected static string $configPath = __DIR__ . '/../config/database.php';
+    protected static string $configPath = __DIR__ . '/../../config/database.php';
 
     /**
      * @var array The array storing database configuration settings.

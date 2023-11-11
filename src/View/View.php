@@ -1,6 +1,8 @@
 <?php
 
-namespace src;
+namespace src\View;
+
+use src\ObjectProperties;
 
 /**
  * Class View

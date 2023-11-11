@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/autoload.php';
 
-$db = src\model\DB::getInstance();
+$db = src\Model\Db::getInstance();
 
 try {
     $db->execute('CREATE TABLE IF NOT EXISTS news(
@@ -19,17 +19,17 @@ try {
     $db->execute('ALTER TABLE news 
     ADD author_id varchar(100);');
 
-    /*$article = new \src\model\Article();
+    /*$article = new \src\AbstractModel\Article();
     $article->title = 'Репозиторий';
     $article->content = 'Теперь создадим простейший репозиторий. Тоже с одним методом, который будет возвращать нам пользователя по его email:';
     $article->insert();*/
 
-    /*$article = new \src\model\Article();
+    /*$article = new \src\AbstractModel\Article();
     $article->id = 1;
     $article->content = 'Тест Update';
     $article->update();*/
 
-    /*$article = new \src\model\Article();
+    /*$article = new \src\AbstractModel\Article();
     $article->id = 1;
     $article->delete();*/
 

@@ -1,27 +1,27 @@
 <?php
 
-namespace src\model;
+namespace src\Model;
 
 use PDO;
-use src\Config;
+use src\Config\ConfigDb;
 
 /**
- * Class DB
+ * Class Db
  *
  * This class is responsible for handling the database connection and performing queries.
  *
- * @package src\model
+ * @package src\AbstractModel
  */
-class DB extends Config
+final class Db extends ConfigDb
 {
     /**
      * @var PDO|null $db Holds the PDO database connection instance.
      */
     protected static ?PDO $db = null;
     /**
-     * @var DB|null $instance Holds the singleton instance of DB class.
+     * @var Db|null $instance Holds the singleton instance of Db class.
      */
-    protected static ?DB $instance = null;
+    protected static ?Db $instance = null;
 
     /**
      * @var string HOST The database host.
@@ -33,7 +33,7 @@ class DB extends Config
     private const PORT = 'port=5432;';
 
     /**
-     * DB constructor.
+     * Db constructor.
      * Initializes the database connection and configures connection attributes.
      */
     private function __construct()
@@ -43,11 +43,11 @@ class DB extends Config
     }
 
     /**
-     * Returns a singleton instance of the DB class.
+     * Returns a singleton instance of the Db class.
      *
-     * @return DB The singleton instance.
+     * @return Db The singleton instance.
      */
-    public static function getInstance(): DB
+    public static function getInstance(): Db
     {
         if (self::$instance === null) {
             static::loadConfig();
@@ -61,12 +61,12 @@ class DB extends Config
     /**
      * Initializes the PDO database connection.
      *
-     * @return $this The DB instance.
+     * @return $this The Db instance.
      */
     private function initializeDatabaseConnection(): self
     {
         if (!isset(self::$db)) {
-            self::$db = new PDO(DB::HOST . DB::PORT . 'dbname=' . static::$dbName,
+            self::$db = new PDO(Db::HOST . Db::PORT . 'dbname=' . static::$dbName,
                 static::$user,
                 static::$password);
         }
