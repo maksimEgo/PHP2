@@ -2,38 +2,57 @@
 
 namespace src\Controller\Admin;
 
+use JetBrains\PhpStorm\NoReturn;
+use src\Builder\PathBuilder;
 use src\Config\PathConfig;
 use src\Controller\BaseController;
+use src\Exceptions\NotFoundException;
+use src\Model\News\Article;
+use src\Validator\ArticleDataValidator;
 
 class EditArticleController extends BaseController
 {
-    protected function defaultAction()
+    public function defaultAction()
     {
-        $article = new \src\Model\News\Article();
-
-        if ( 'GET' === $_SERVER['REQUEST_METHOD'] ) {
-            if ( isset($_GET['id']) && filter_var($_GET['id'], FILTER_VALIDATE_INT) ) {
-                $id = $_GET['id'];
-                $this->view->article = $article::findById($id);
-                if ( !$this->view->article ) {
-                    die('Статья не найдена');
-                }
-                echo $this->view->render(PathConfig::adminTemplatePath->getPath() . 'action/edit.php');
-            } else {
-                die('Неверный ID статьи');
-            }
-        } elseif ( 'POST' === $_SERVER['REQUEST_METHOD'] ) {
-            if ( isset($_POST['id'], $_POST['title'], $_POST['content']) ) {
-                $article->id = $_POST['id'];
-                $article->title = $_POST['title'];
-                $article->content = $_POST['content'];
-                $article->author_id = $_POST['author_id'];
-
-                $article->save();
-
-                header('Location: /admin/index.php');
-                exit;
-            }
+        if ('GET' === $_SERVER['REQUEST_METHOD']) {
+            $this->handleGet();
+        } elseif ('POST' === $_SERVER['REQUEST_METHOD']) {
+            $this->handlePost();
         }
+    }
+
+    private function handleGet()
+    {
+        $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        if (!$id) {
+            throw new NotFoundException('Неверный ID: ' . $id);
+        }
+
+        $article = Article::findById($id);
+        if (!$article) {
+            throw new NotFoundException('Новость с ID "' . $id .  '" не найдена');
+        }
+
+        $this->view->article = $article;
+        echo $this->view->render(PathBuilder::getPath(PathConfig::adminTemplatePath) . 'action/edit.php');
+    }
+
+    #[NoReturn] private function handlePost()
+    {
+        if ( ArticleDataValidator::validate($_POST) != null) {
+            //Ошибка валидации
+            return;
+        }
+
+        $article = new Article();
+        $article->id = $_POST['id'];
+        $article->title = htmlspecialchars($_POST['title']);
+        $article->content = htmlspecialchars($_POST['content']);
+        $article->author_id = $_POST['author_id'];
+
+        $article->save();
+
+        header('Location: /admin/index.php');
+        exit;
     }
 }

@@ -1,0 +1,2 @@
+[2023-11-14 18:56:42] Not Found error: Новость с ID "45" не найдена
+[2023-11-14 18:57:02] Database error: Ошибка подключения к базе данных: SQLSTATE[08006] [7] connection to server at "postgres" (172.18.0.3), port 5432 failed: FATAL:  database "1SiteData" does not exist

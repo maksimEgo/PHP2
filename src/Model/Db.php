@@ -2,6 +2,7 @@
 
 namespace src\Model;
 
+use mysql_xdevapi\Exception;
 use PDO;
 use src\Config\ConfigDb;
 use src\Exceptions\DbException;
@@ -36,11 +37,17 @@ final class Db extends ConfigDb
     /**
      * Db constructor.
      * Initializes the database connection and configures connection attributes.
+     * @throws DbException connection Exception
      */
     private function __construct()
     {
-        $this->initializeDatabaseConnection()
-            ->configureConnectionAttributes();
+        try {
+            $this->initializeDatabaseConnection()
+                ->configureConnectionAttributes();
+        } catch (\PDOException $PDOException) {
+            throw new DbException('Ошибка подключения к базе данных: '
+                . $PDOException->getMessage() );
+        }
     }
 
     /**

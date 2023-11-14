@@ -2,8 +2,10 @@
 
 namespace src\Controller\News;
 
+use src\Builder\PathBuilder;
 use src\Config\PathConfig;
 use src\Controller\BaseController;
+use src\Exceptions\NotFoundException;
 
 class ArticleController extends BaseController
 {
@@ -14,13 +16,11 @@ class ArticleController extends BaseController
             $this->view->article = \src\Model\News\Article::findById($id);
 
             if (!$this->view->article) {
-                echo 'Article not found';
-                return;
+                throw new NotFoundException('Новость с ID "' . $id .  '" не найдена');
             }
-            echo $this->view->render(PathConfig::baseTemplatePath->getPath() . 'article.php');
+            echo $this->view->render(PathBuilder::getPath(PathConfig::baseTemplatePath) . 'article.php');
         } else {
             echo 'Not corrected request';
         }
     }
-
 }

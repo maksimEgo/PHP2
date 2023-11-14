@@ -2,8 +2,10 @@
 
 namespace src\Controller\Admin;
 
+use src\Builder\PathBuilder;
 use src\Config\PathConfig;
 use src\Controller\BaseController;
+use src\Validator\ArticleDataValidator;
 
 class AddArticleController extends BaseController
 {
@@ -12,18 +14,22 @@ class AddArticleController extends BaseController
         $article = new \src\Model\News\Article();
 
         if ('POST' === $_SERVER['REQUEST_METHOD']) {
-            if (isset($_POST['title'], $_POST['content'])) {
-                $article->title = $_POST['title'];
-                $article->content = $_POST['content'];
-                $article->author_id = 1;
 
-                $article->save();
-
-                header('Location: /admin/index.php');
-                exit;
+            if (ArticleDataValidator::validate($_POST) != null) {
+                //Ошибка валидации
+                return;
             }
+            $article->title = htmlspecialchars($_POST['title']);
+            $article->content = htmlspecialchars($_POST['content']);
+            $article->author_id = 1;
+
+            $article->save();
+
+            header('Location: /admin/index.php');
+            exit;
+
         }
 
-        echo $this->view->render(PathConfig::adminTemplatePath->getPath() . 'action/add.php');
+        echo $this->view->render(PathBuilder::getPath(PathConfig::adminTemplatePath) . 'action/add.php');
     }
 }
