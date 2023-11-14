@@ -4,6 +4,7 @@ namespace src\Model;
 
 use PDO;
 use src\Config\ConfigDb;
+use src\Exceptions\DbException;
 
 /**
  * Class Db
@@ -93,12 +94,12 @@ final class Db extends ConfigDb
      * @param int $fetchStyle The PDO fetch style.
      * @param string|null $className Optional class name for PDO::FETCH_CLASS fetch style.
      * @return array The result set as an array.
-     * @throws \RuntimeException If the database connection is not established.
+     * @throws DbException If the database connection is not established.
      */
     public function query(string $sql, array $data = [], int $fetchStyle = PDO::FETCH_CLASS, ?string $className = null): array
     {
         if (self::$db === null) {
-            throw new \RuntimeException('Database connection not established.');
+            throw new DbException('Database connection not established.');
         }
 
         $sth = static::$db->prepare($sql);
@@ -113,13 +114,12 @@ final class Db extends ConfigDb
      * @param string $sql The SQL command string.
      * @param array $data Optional associative array of parameters to bind to the SQL command.
      * @return bool True on success, false on failure.
-     * @throws \RuntimeException If the database connection is not established.
+     * @throws DbException If the database connection is not established.
      */
     public function execute(string $sql, array $data = []): bool
     {
-
         if (self::$db === null) {
-            throw new \RuntimeException('Database connection not established.');
+            throw new DbException('Database connection not established.');
         }
 
         $sth = static::$db->prepare($sql);

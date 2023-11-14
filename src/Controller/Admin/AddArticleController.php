@@ -15,6 +15,7 @@ class AddArticleController extends BaseController
             if (isset($_POST['title'], $_POST['content'])) {
                 $article->title = $_POST['title'];
                 $article->content = $_POST['content'];
+                $article->author_id = 1;
 
                 $article->save();
 

@@ -6,10 +6,12 @@ $page = $_GET['page'] ?? 'Articles';
 
 $routeName = 'src\\Controller\\News\\' . ucfirst($page) . 'Controller';
 
-if (class_exists($routeName)) {
-    $controller = new $routeName;
-    $controller->dispatch('defaultAction');
-} else {
-    echo '404 ошибка';
+try {
+    if (class_exists($routeName)) {
+        $controller = new $routeName;
+        $controller->dispatch('defaultAction');
+    }
+} catch (\src\Exceptions\DbException $exception) {
+    include __DIR__ . '/../template/404.php';
 }
 
