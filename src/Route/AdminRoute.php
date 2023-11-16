@@ -2,8 +2,7 @@
 
 namespace src\Route;
 
-
-class AdminRoute extends AbstractRoute
+final class AdminRoute extends AbstractRoute
 {
     public function getRouteName(string $page): string
     {
