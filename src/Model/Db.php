@@ -5,6 +5,7 @@ namespace src\Model;
 use PDO;
 use src\Config\ConfigDb;
 use src\Exceptions\DbException;
+use src\Service\NotificationService;
 
 /**
  * Class Db
@@ -44,6 +45,8 @@ class Db extends ConfigDb
             $this->initializeDatabaseConnection()
                 ->configureConnectionAttributes();
         } catch (\PDOException $PDOException) {
+            NotificationService::sendDbErrorEmail($PDOException);
+
             throw new DbException('Ошибка подключения к базе данных: '
                 . $PDOException->getMessage() );
         }

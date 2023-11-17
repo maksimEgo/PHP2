@@ -3,7 +3,8 @@
         "php-di/php-di": "^7.0",
       "ext-pdo": "*",
         "monolog/monolog": "^3.5",
-        "phpunit/php-timer": "^6.0"
+        "phpunit/php-timer": "^6.0",
+        "symfony/mailer": "^6.3"
     },
     "autoload": {
         "psr-4": {

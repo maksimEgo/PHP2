@@ -22,6 +22,8 @@
         justify-content: space-between;
         align-items: center;
         padding: 10px 20px;
+        margin-top: -5px;
+        margin-bottom: -5px;
     }
 
     .nav-menu {

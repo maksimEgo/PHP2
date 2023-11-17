@@ -12,7 +12,7 @@ if (isset($timer)) {
 
 <footer>
     <div class="admin-panel-info">
-        <p><?= htmlspecialchars($resourceUsage); ?></p>
+        <p style="margin-top: -1px; margin-bottom: -1px"><?= htmlspecialchars($resourceUsage); ?></p>
     </div>
 </footer>
 
