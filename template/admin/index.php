@@ -9,9 +9,7 @@
 </head>
 <body>
 <div class="container">
-    <header class="header">
         <h1>Админ панель</h1>
-    </header>
     <table class="admin-table">
         <thead>
         <tr>

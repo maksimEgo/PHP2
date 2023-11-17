@@ -8,6 +8,8 @@ use src\Exceptions\NotFoundException;
 use src\Route\PublicRoute;
 use SebastianBergmann\Timer\Timer;
 
+include __DIR__ . '/header.php';
+
 $page = $_GET['page'] ?? 'Articles';
 
 require_once __DIR__ . '/../vendor/autoload.php';

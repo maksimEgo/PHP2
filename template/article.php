@@ -9,9 +9,7 @@
 </head>
 <body>
 <div class="container">
-    <header class="header">
         <h1>Новости</h1>
-    </header>
     <div class="news-item">
         <h2 class="news-title"><?php echo htmlspecialchars($article->title) ?></h2>
         <p class="news-content"><?php echo nl2br(htmlspecialchars($article->content)); ?></p>

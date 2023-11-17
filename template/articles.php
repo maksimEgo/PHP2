@@ -9,9 +9,7 @@
 </head>
 <body>
 <div class="container">
-    <header class="header">
-        <h1>Новости</h1>
-    </header>
+    <h1>Новости</h1>
     <ul class="news-list">
         <?php foreach ($articles as $item): ?>
             <li class="news-item">

@@ -9,9 +9,7 @@
 </head>
 <body>
 <div class="container">
-    <header class="header">
         <h1>Редактирование новости</h1>
-    </header>
     <form method="post" action="">
         <table class="admin-table edit-form">
             <tr>
