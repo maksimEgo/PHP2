@@ -2,7 +2,6 @@
 
 namespace src\Model;
 
-use mysql_xdevapi\Exception;
 use PDO;
 use src\Config\ConfigDb;
 use src\Exceptions\DbException;
@@ -14,7 +13,7 @@ use src\Exceptions\DbException;
  *
  * @package src\AbstractModel
  */
-final class Db extends ConfigDb
+class Db extends ConfigDb
 {
     /**
      * @var PDO|null $db Holds the PDO database connection instance.

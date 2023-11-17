@@ -29,7 +29,7 @@ class View implements \Countable, \Iterator
      * @param string $template The path to the view template file.
      * @return false|string The rendered view content or false on failure.
      */
-    public function render($template): false|string
+    public function render(string $template): false|string
     {
         foreach ($this->data as $name => $value) {
             $$name = $value;

@@ -4,22 +4,23 @@ namespace src\Route;
 
 use src\Exceptions\DbException;
 use src\Exceptions\NotFoundException;
-use src\Logger\LoggerException;
+use Monolog\Logger;
 use src\Repository\ControllerRepository;
 
 abstract class AbstractRoute
 {
-    private LoggerException $loggerException;
     private ControllerRepository $controllerRepository;
+    private Logger $logger;
     private string $basePage;
 
     public function __construct(
-        LoggerException $loggerException,
+        Logger $logger,
         ControllerRepository $controllerRepository,
         string $page
+
     )
     {
-        $this->loggerException = $loggerException;
+        $this->logger = $logger;
         $this->controllerRepository = $controllerRepository;
         $this->basePage = $page;
     }
@@ -36,7 +37,7 @@ abstract class AbstractRoute
                 throw new NotFoundException("Controller not found");
             }
         } catch (DbException | NotFoundException $exception) {
-            $this->loggerException->log(get_class($exception) . ": " . $exception->getMessage());
+            $this->logger->error(get_class($exception) . ": " . $exception->getMessage());
             throw $exception;
         }
     }
