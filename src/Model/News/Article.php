@@ -45,11 +45,11 @@ class Article extends AbstractModel
     /**
      * Retrieve the author information for the article.
      */
-    public function getAuthor(): void
-    {
+    public function getAuthor() {
         if ($this->author_id !== null && $this->authorObject === null) {
             $this->authorObject = Author::findById($this->author_id);
         }
+        return $this->authorObject;
     }
 
     /**

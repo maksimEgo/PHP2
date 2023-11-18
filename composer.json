@@ -4,7 +4,8 @@
       "ext-pdo": "*",
         "monolog/monolog": "^3.5",
         "phpunit/php-timer": "^6.0",
-        "symfony/mailer": "^6.3"
+        "symfony/mailer": "^6.3",
+        "twig/twig": "^3.7"
     },
     "autoload": {
         "psr-4": {

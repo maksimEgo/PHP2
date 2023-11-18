@@ -33,8 +33,8 @@ class EditArticleController extends BaseController
             throw new NotFoundException('Новость с ID "' . $id .  '" не найдена');
         }
 
-        $this->view->article = $article;
-        echo $this->view->render(PathBuilder::getPath(PathConfig::adminTemplatePath) . 'action/edit.php');
+        $this->adminView->article = $article;
+        echo $this->adminView->render(PathBuilder::getPath(PathConfig::adminTemplatePath) . 'action/edit.php');
     }
 
     #[NoReturn] private function handlePost()

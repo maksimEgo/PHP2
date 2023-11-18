@@ -30,6 +30,6 @@ class AddArticleController extends BaseController
 
         }
 
-        echo $this->view->render(PathBuilder::getPath(PathConfig::adminTemplatePath) . 'action/add.php');
+        echo $this->adminView->render(PathBuilder::getPath(PathConfig::adminTemplatePath) . 'action/add.php');
     }
 }

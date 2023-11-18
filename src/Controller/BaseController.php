@@ -1,17 +1,19 @@
 <?php
 
 namespace src\Controller;
+use src\View\AdminView;
+use src\View\PublicView;
 
-
-use src\View\View;
 
 abstract class BaseController
 {
-    protected View $view;
+    protected PublicView $publicView;
+    protected AdminView $adminView;
 
     public function __construct()
     {
-        $this->view = new View();
+        $this->publicView = new PublicView();
+        $this->adminView = new AdminView();
     }
 
     public function dispatch($action): void
