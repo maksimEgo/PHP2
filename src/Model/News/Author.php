@@ -2,7 +2,7 @@
 
 namespace src\Model\News;
 
-use src\AbstractModel;
+use src\Model\AbstractModel;
 
 /**
  * Class Author

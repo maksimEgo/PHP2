@@ -5,6 +5,7 @@ namespace src\Controller\Admin;
 use src\Builder\PathBuilder;
 use src\Config\PathConfig;
 use src\Controller\BaseController;
+use src\Exceptions\ExceptionFactory;
 use src\Exceptions\NotFoundException;
 
 class ArticlesController extends BaseController
@@ -13,9 +14,10 @@ class ArticlesController extends BaseController
     {
         try {
             $this->adminView->articles = \src\Model\News\Article::findAll();
-            echo $this->adminView->render(PathBuilder::getPath(PathConfig::adminTemplatePath) . 'index.php');
+            echo $this->adminView->render(PathBuilder::getPath(PathConfig::adminIndexPage));
         } catch (NotFoundException $notFoundException) {
-            throw new NotFoundException('Новости не найдены');
+            throw ExceptionFactory::createNotFoundException('Новости не найдены ' . $notFoundException->getMessage(),
+                NotFoundException::NOT_FOUND_PAGE_ERROR);
         }
     }
 }

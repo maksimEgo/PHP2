@@ -3,7 +3,9 @@
 namespace src\Controller\Admin;
 
 use src\Controller\BaseController;
+use src\Exceptions\ExceptionFactory;
 use src\Exceptions\NotFoundException;
+use src\Model\News\Article;
 
 class DeleteArticleController extends BaseController
 {
@@ -12,10 +14,11 @@ class DeleteArticleController extends BaseController
     {
         if ('GET' === $_SERVER['REQUEST_METHOD'] && isset($_GET['id'])) {
             $id = $_GET['id'];
-            $article = \src\Model\News\Article::findById($id);
+            $article = Article::findById($id);
 
             if (!$article) {
-                throw new NotFoundException('Новость с ID ' . $id . ' не найдена');
+                throw ExceptionFactory::createNotFoundException('Новость с ID ' . $id . ' не найдена',
+                    NotFoundException::NOT_FOUND_PAGE_ERROR);
             }
 
             $article->delete();

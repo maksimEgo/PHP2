@@ -1,8 +1,7 @@
 <?php
 
-namespace src;
+namespace src\Model;
 
-use src\Model\Db;
 use PDO;
 
 /**
@@ -129,9 +128,9 @@ abstract class AbstractModel
     /**
      * Deletes the current AbstractModel instance from the database.
      *
-     * @return void
+     * @return bool
      */
-    public function delete(): void
+    public function delete(): bool
     {
         if (!isset($this->id)) {
             throw new \RuntimeException('ID must be set for delete');
@@ -142,7 +141,7 @@ abstract class AbstractModel
         $sql = 'DELETE FROM ' . static::TABLE . ' WHERE id =:id';
         $data = [':id' => $this->id];
 
-        $db->execute($sql, $data);
+        return $db->execute($sql, $data);
     }
 
     /**

@@ -16,8 +16,10 @@ class PathBuilder
     public static function getPath(PathConfig $config): string
     {
         return match ($config) {
-            PathConfig::baseTemplatePath => realpath(__DIR__ . '/../../template/') . '/',
-            PathConfig::adminTemplatePath => realpath(__DIR__ . '/../../template/admin/') . '/',
+            PathConfig::publicIndexPage => realpath(__DIR__ . '/../../template/'),
+            PathConfig::adminIndexPage => realpath(__DIR__ . '/../../template/admin/index.php'),
+            PathConfig::adminActionEditPage => realpath(__DIR__ . '/../../template/admin/action/edit.php'),
+            PathConfig::adminActionAddPage => realpath(__DIR__ . '/../../template/admin/action/add.php')
         };
     }
 }

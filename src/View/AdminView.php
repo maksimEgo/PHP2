@@ -2,10 +2,7 @@
 
 namespace src\View;
 
-use src\Builder\PathBuilder;
-use src\Config\PathConfig;
 use src\ObjectProperties;
-use Twig\Environment;
 
 /**
  * Class AdminView
@@ -17,12 +14,6 @@ use Twig\Environment;
 class AdminView extends AbstractView
 {
     use ObjectProperties;
-
-    public function __construct()
-    {
-        $loader = PathBuilder::getFilesystemLoader(PathConfig::adminTemplatePath);
-        $this->twig = new Environment($loader);
-    }
 
     public function render(string $template): false|string
     {

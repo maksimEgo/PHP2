@@ -16,3 +16,5 @@
 [2023-11-17T10:57:00.131365+00:00] my_logger.ERROR: src\Exceptions\NotFoundException: Новость с ID "45" не найдена [] []
 [2023-11-17T10:57:19.498523+00:00] my_logger.ERROR: src\Exceptions\NotFoundException: Новость с ID "45" не найдена [] []
 [2023-11-17T10:57:19.534505+00:00] my_logger.ERROR: Error: Новость с ID "45" не найдена [] []
+[2023-11-23T11:37:13.407052+00:00] my_logger.ERROR: src\Exceptions\NotFoundException: Страница не найдена: Новость с ID "4666" не найдена [] []
+[2023-11-23T11:37:13.485476+00:00] my_logger.ERROR: Error: Страница не найдена: Новость с ID "4666" не найдена 404 [] []

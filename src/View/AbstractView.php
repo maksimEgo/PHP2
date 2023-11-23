@@ -20,7 +20,7 @@ class AbstractView
 
     public function __construct()
     {
-        $loader = PathBuilder::getFilesystemLoader(PathConfig::baseTemplatePath);
+        $loader = PathBuilder::getFilesystemLoader(PathConfig::publicIndexPage);
         $this->twig = new Environment($loader);
     }
 

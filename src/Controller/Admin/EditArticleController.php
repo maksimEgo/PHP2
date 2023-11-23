@@ -6,6 +6,7 @@ use JetBrains\PhpStorm\NoReturn;
 use src\Builder\PathBuilder;
 use src\Config\PathConfig;
 use src\Controller\BaseController;
+use src\Exceptions\ExceptionFactory;
 use src\Exceptions\NotFoundException;
 use src\Model\News\Article;
 use src\Validator\ArticleDataValidator;
@@ -24,22 +25,25 @@ class EditArticleController extends BaseController
     private function handleGet()
     {
         $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+
         if (!$id) {
-            throw new NotFoundException('Неверный ID: ' . $id);
+            throw ExceptionFactory::createNotFoundException('Неверный ID: ' . $id,
+                NotFoundException::NOT_FOUND_PAGE_ERROR);
         }
 
         $article = Article::findById($id);
         if (!$article) {
-            throw new NotFoundException('Новость с ID "' . $id .  '" не найдена');
+            throw ExceptionFactory::createNotFoundException('Новость с ID "' . $id . '" не найдена',
+                NotFoundException::NOT_FOUND_PAGE_ERROR);
         }
 
         $this->adminView->article = $article;
-        echo $this->adminView->render(PathBuilder::getPath(PathConfig::adminTemplatePath) . 'action/edit.php');
+        echo $this->adminView->render(PathBuilder::getPath(PathConfig::adminActionEditPage));
     }
 
     #[NoReturn] private function handlePost()
     {
-        if ( ArticleDataValidator::validate($_POST) != null) {
+        if (ArticleDataValidator::validate($_POST) != null) {
             //Ошибка валидации
             return;
         }

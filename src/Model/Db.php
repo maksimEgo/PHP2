@@ -4,7 +4,8 @@ namespace src\Model;
 
 use PDO;
 use src\Config\ConfigDb;
-use src\Exceptions\DbException;
+use src\Exceptions\DataBaseException;
+use src\Exceptions\ExceptionFactory;
 use src\Service\NotificationService;
 
 /**
@@ -37,7 +38,7 @@ class Db extends ConfigDb
     /**
      * Db constructor.
      * Initializes the database connection and configures connection attributes.
-     * @throws DbException connection Exception
+     * @throws DataBaseException connection Exception
      */
     private function __construct()
     {
@@ -47,8 +48,8 @@ class Db extends ConfigDb
         } catch (\PDOException $PDOException) {
             NotificationService::sendDbErrorEmail($PDOException);
 
-            throw new DbException('Ошибка подключения к базе данных: '
-                . $PDOException->getMessage() );
+            throw ExceptionFactory::createDataBaseConnectionException($PDOException->getMessage(),
+                DataBaseException::CONNECTION_ERROR);
         }
     }
 
@@ -103,12 +104,11 @@ class Db extends ConfigDb
      * @param int $fetchStyle The PDO fetch style.
      * @param string|null $className Optional class name for PDO::FETCH_CLASS fetch style.
      * @return array The result set as an array.
-     * @throws DbException If the database connection is not established.
      */
     public function query(string $sql, array $data = [], int $fetchStyle = PDO::FETCH_CLASS, ?string $className = null): array
     {
         if (self::$db === null) {
-            throw new DbException('Database connection not established.');
+            throw ExceptionFactory::createQueryException('query', DataBaseException::QUERY_ERROR);
         }
 
         $sth = static::$db->prepare($sql);
@@ -123,12 +123,11 @@ class Db extends ConfigDb
      * @param string $sql The SQL command string.
      * @param array $data Optional associative array of parameters to bind to the SQL command.
      * @return bool True on success, false on failure.
-     * @throws DbException If the database connection is not established.
      */
     public function execute(string $sql, array $data = []): bool
     {
         if (self::$db === null) {
-            throw new DbException('Database connection not established.');
+            throw ExceptionFactory::createExecuteException('execute', DataBaseException::EXECUTE_ERROR);
         }
 
         $sth = static::$db->prepare($sql);
@@ -144,5 +143,10 @@ class Db extends ConfigDb
     public static function getInsertId(): false|string
     {
         return static::$db->lastInsertId();
+    }
+
+    public static function setPDO(PDO $pdo): void
+    {
+        self::$db = $pdo;
     }
 }

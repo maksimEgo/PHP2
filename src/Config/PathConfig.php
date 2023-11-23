@@ -4,6 +4,8 @@ namespace src\Config;
 
 enum PathConfig
 {
-    case baseTemplatePath;
-    case adminTemplatePath;
+    case publicIndexPage;
+    case adminIndexPage;
+    case adminActionAddPage;
+    case adminActionEditPage;
 }

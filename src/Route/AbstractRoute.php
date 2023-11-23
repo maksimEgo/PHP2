@@ -2,7 +2,8 @@
 
 namespace src\Route;
 
-use src\Exceptions\DbException;
+use src\Exceptions\DataBaseException;
+use src\Exceptions\ExceptionFactory;
 use src\Exceptions\NotFoundException;
 use Monolog\Logger;
 use src\Repository\ControllerRepository;
@@ -34,9 +35,9 @@ abstract class AbstractRoute
                 $controller = $this->controllerRepository->getController($routeName);
                 $controller->dispatch('defaultAction');
             } else {
-                throw new NotFoundException("Controller not found");
+                throw ExceptionFactory::createNotFoundException('Такой страницы не существует', NotFoundException::NOT_FOUND_CONTROLLER);
             }
-        } catch (DbException | NotFoundException $exception) {
+        } catch (DataBaseException | NotFoundException $exception) {
             $this->logger->error(get_class($exception) . ": " . $exception->getMessage());
             throw $exception;
         }

@@ -1,6 +1,9 @@
 <?php
 
 namespace src\Controller;
+use src\Exceptions\AccessException;
+use src\Exceptions\ExceptionFactory;
+use src\Exceptions\NotFoundException;
 use src\View\AdminView;
 use src\View\PublicView;
 
@@ -22,11 +25,12 @@ abstract class BaseController
             if (method_exists($this, $action)) {
                 $this->$action();
             } else {
-                echo "Действие не найдено.";
+                throw ExceptionFactory::createNotFoundException('Невозможно выполнить действие',
+                    NotFoundException::NOT_FOUND_ACTION);
             }
         } else {
-            echo "Доступ закрыт.";
-            exit;
+            throw ExceptionFactory::createAccessException(' к действию контроллера',
+                AccessException::ACCESS_ERROR);
         }
     }
 
