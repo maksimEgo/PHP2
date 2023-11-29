@@ -2,28 +2,40 @@
 
 namespace src\Validator;
 
+use src\Exceptions\MultiException;
+use TheSeer\Tokenizer\Exception;
+
 class ArticleDataValidator
 {
-    public static function validate(array $data) : ?array
-    {
-        $errors = [];
+    private \Exception $exception;
 
+    public function __construct()
+    {
+        $this->exception = new MultiException();
+    }
+
+    public function validate(array $data): bool
+    {
         if ( empty($data['title']) ) {
-            $errors['title'] = 'Title is required.';
+            $this->exception->add(new Exception('Title is required.'));
         }
 
         if ( empty($data['content']) ) {
-            $errors['content'] = 'Content is required.';
+            $this->exception->add(new Exception('Content is required.'));
         }
 
         if ( empty($data['author_id']) ) {
-            $errors['author_id'] = 'author_id is required.';
+            $this->exception->add(new Exception('author_id is required.'));
         }
 
         if ( !is_numeric($data['author_id']) ) {
-            $errors['author_id'] = 'Author id must be an integer.';
+            $this->exception->add(new Exception('Author id must be an integer.'));
         }
 
-        return count($errors) > 0 ? $errors : null;
+        if ( $this->exception->empty() ) {
+            throw $this->exception;
+        }
+
+        return true;
     }
 }

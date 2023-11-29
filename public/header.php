@@ -2,6 +2,7 @@
     <nav class="navbar">
         <ul class="nav-menu">
             <li><a href="/">Главная</a></li>
+            <li><a href="/users/registration">Регистрация</a></li>
         </ul>
     </nav>
 </header>

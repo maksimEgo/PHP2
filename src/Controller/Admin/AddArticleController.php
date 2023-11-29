@@ -15,10 +15,11 @@ class AddArticleController extends BaseController
 
         if ('POST' === $_SERVER['REQUEST_METHOD']) {
 
-            if (ArticleDataValidator::validate($_POST) != null) {
-                //Ошибка валидации
+            if (!$this->validator->validate($_POST)) {
+                //Ошибка валидации выкенет exception в validate
                 return;
             }
+
             $article->title = htmlspecialchars($_POST['title']);
             $article->content = htmlspecialchars($_POST['content']);
             $article->author_id = 1;

@@ -5,12 +5,12 @@ use src\Builder\PathBuilder;
 use src\Config\PathConfig;
 use src\Exceptions\DataBaseException;
 use src\Exceptions\NotFoundException;
-use src\Route\PublicRoute;
+use src\Route\BaseRoute;
 use SebastianBergmann\Timer\Timer;
 
 include __DIR__ . '/header.php';
 
-$page = $_GET['page'] ?? 'Articles';
+$page = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/bootstrap.php';
@@ -18,7 +18,7 @@ require_once __DIR__ . '/bootstrap.php';
 $timer = $container->get(Timer::class);
 $timer->start();
 
-$router = $container->get(PublicRoute::class);
+$router = $container->get(BaseRoute::class);
 
 try {
     $router->Routing();

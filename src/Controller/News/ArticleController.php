@@ -10,8 +10,10 @@ class ArticleController extends BaseController
 {
     protected function defaultAction()
     {
-        if ('GET' === $_SERVER['REQUEST_METHOD'] && isset($_GET['id']) && ctype_digit($_GET['id'])) {
-            $id = $_GET['id'];
+        $parts = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
+        $id = $parts[2] ?? null;
+
+        if ('GET' === $_SERVER['REQUEST_METHOD'] && ctype_digit($id)) {
             $this->publicView->article = \src\Model\News\Article::findById($id);
 
             if (!$this->publicView->article) {

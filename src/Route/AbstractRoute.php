@@ -37,7 +37,7 @@ abstract class AbstractRoute
             } else {
                 throw ExceptionFactory::createNotFoundException('Такой страницы не существует', NotFoundException::NOT_FOUND_CONTROLLER);
             }
-        } catch (DataBaseException | NotFoundException $exception) {
+        } catch (NotFoundException $exception) {
             $this->logger->error(get_class($exception) . ": " . $exception->getMessage());
             throw $exception;
         }

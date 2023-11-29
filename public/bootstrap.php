@@ -6,7 +6,7 @@ use Monolog\Level;
 use Monolog\Logger;
 use src\Repository\ControllerRepository;
 use src\Route\AdminRoute;
-use src\Route\PublicRoute;
+use src\Route\BaseRoute;
 use SebastianBergmann\Timer\Timer;
 
 $containerBuilder = new ContainerBuilder();
@@ -22,8 +22,8 @@ $containerBuilder->addDefinitions([
     ControllerRepository::class => function () {
         return new ControllerRepository();
     },
-    PublicRoute::class => function ($container) use ($page) {
-        return new PublicRoute(
+    BaseRoute::class => function ($container) use ($page) {
+        return new BaseRoute(
             $container->get(Logger::class),
             $container->get(ControllerRepository::class),
             $page

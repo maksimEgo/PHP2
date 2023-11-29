@@ -12,13 +12,13 @@
     <h1>Новости</h1>
     <ul class="news-list">
         {% for item in articles %}
-        <li class="news-item">
-            <a href="/?page=article&id={{ item.id }}" class="news-link">
-                <h2 class="news-title">{{ item.title|raw }}</h2>
-            </a>
-            <p class="news-content">{{ item.content|raw }}</p>
-            <p>Автор: {{ item.getAuthor().name }}</p>
-        </li>
+            <li class="news-item">
+                <a href="/news/article/{{ item.id }}" class="news-link">
+                    <h2 class="news-title">{{ item.title|raw }}</h2>
+                </a>
+                <p class="news-content">{{ item.content|raw }}</p>
+                <p>Автор: {{ item.getAuthor().name }}</p>
+            </li>
         {% endfor %}
     </ul>
 </div>
