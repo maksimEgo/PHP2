@@ -4,15 +4,17 @@ namespace src\Model\Users;
 
 use DateTime;
 use src\Model\AbstractModel;
+use function DI\get;
 
 class User extends AbstractModel
 {
     protected string $username;
     protected string $password;
     protected string $email;
-    protected UserRoleEnum $role;
-    protected DateTime $created_at;
-    protected DateTime $updated_at;
+    protected string $role;
+    protected string $created_at;
+    protected string $updated_at;
+    protected const TABLE = 'users';
 
     public function getUserName() :string
     {
@@ -26,7 +28,7 @@ class User extends AbstractModel
 
     public function setPassword(string $password): void
     {
-        $this->password = $password;
+        $this->password = password_hash($password, PASSWORD_DEFAULT);
     }
 
     public function getEmail(): string
@@ -39,33 +41,33 @@ class User extends AbstractModel
         $this->email = $email;
     }
 
-    public function getRole(): UserRoleEnum
+    public function getRole(): string
     {
         return $this->role;
     }
 
     public function setRole(UserRoleEnum $role): void
     {
-        $this->role = $role;
+        $this->role = UserRoleEnum::getRole($role);
     }
 
-    public function getCreatedAt(): DateTime
+    public function getCreatedAt(): string
     {
         return $this->created_at;
     }
 
     public function setCreatedAt(DateTime $createTime): void
     {
-        $this->created_at = $createTime;
+        $this->created_at = $createTime->format('Y-m-d H:i:s');
     }
 
-    public function getUpdatedAt(): DateTime
+    public function getUpdatedAt(): string
     {
         return $this->updated_at;
     }
 
     public function setUpdatedAt(DateTime $updateTime): void
     {
-        $this->updated_at = $updateTime;
+        $this->updated_at = $updateTime->format('Y-m-d H:i:s');
     }
 }
