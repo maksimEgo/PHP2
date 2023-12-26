@@ -136,6 +136,35 @@ class Db extends ConfigDb
     }
 
     /**
+     * Executes an SQL query and yields each row of the result set one by one.
+     *
+     * @param string $sql The SQL query string.
+     * @param array $data Optional associative array of parameters to bind to the SQL query.
+     * @param int $fetchStyle The PDO fetch style.
+     * @param string|null $className Optional class name for PDO::FETCH_CLASS fetch style.
+     * @return \Generator The generator for the result set rows.
+     */
+    public function queryEach(string $sql, array $data = [], int $fetchStyle = PDO::FETCH_CLASS, ?string $className = null): \Generator
+    {
+        if (self::$db === null) {
+            throw ExceptionFactory::createQueryException('queryEach', DataBaseException::QUERY_ERROR);
+        }
+
+        $sth = self::$db->prepare($sql);
+        $sth->execute($data);
+
+        if ($fetchStyle === PDO::FETCH_CLASS) {
+            while ($row = $sth->fetch($fetchStyle, PDO::FETCH_ORI_NEXT, 0, $className)) {
+                yield $row;
+            }
+        } else {
+            while ($row = $sth->fetch($fetchStyle)) {
+                yield $row;
+            }
+        }
+    }
+
+    /**
      * Returns the ID of the last inserted row or sequence value.
      *
      * @return false|string The last inserted row ID or sequence value. False on failure.
