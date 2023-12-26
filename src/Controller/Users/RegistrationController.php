@@ -7,14 +7,17 @@ use src\Exceptions\AccessException;
 use src\Exceptions\ExceptionFactory;
 use src\Model\Users\User;
 use src\Model\Users\UserRoleEnum;
+use src\Validator\UserDataValidator;
 
 class RegistrationController extends BaseController
 {
     protected function defaultAction()
     {
-        if ('POST' === $_SERVER['REQUEST_METHOD'])
+        if ('POST' === $_SERVER['REQUEST_METHOD'] && true === UserDataValidator::validateUserData($_POST) )
         {
             $this->registration($_POST);
+        } else {
+            // выводим уведомления с ошибками
         }
 
         try {
